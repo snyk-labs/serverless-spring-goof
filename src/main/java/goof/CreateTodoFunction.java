@@ -1,14 +1,13 @@
 package goof;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
-import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 
 import goof.domain.Todo;
 import goof.domain.TodoRequest;
@@ -22,15 +21,34 @@ public class CreateTodoFunction implements Function<TodoRequest, TodoResponse> {
 	TodoRepository repository;
 	
 	public Todo createTodo(final Todo todo) {
-        return repository.save(todo);
+		String id = todo.getId();
+		String todoText = todo.getTodoText();
+		
+		File file = new File("/tmp/todo.txt");
+		
+		PrintWriter printWriter;
+		try {
+			if (!file.exists()) file.createNewFile();
+			
+			printWriter = new PrintWriter(new FileWriter(file));
+			printWriter.write("New Todo created with id (" + id + "): " + todoText);
+			printWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return repository.save(todo); 
     }
 
     @Override
     public TodoResponse apply(final TodoRequest todoRequest) {
         final TodoResponse result = new TodoResponse();
-
-        result.setResult(createTodo(todoRequest.getTodo()));
+        
+        result.setResult(todoRequest.getTodo());
 
         return result;
     }
+    
 }
