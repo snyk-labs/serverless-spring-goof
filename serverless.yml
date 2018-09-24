@@ -1,0 +1,87 @@
+service: serverless-java-goof
+provider:
+  name: aws
+  runtime: java8
+  timeout: 30
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    MY_SECRET_ENV_VAR: "Tada!"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+package:
+  individually: true
+
+functions:
+  createtodo:
+    package:
+      artifact: target/todo-1.0-create-fn.jar
+    handler: goof.handler.aws.TodoFunctionHandler
+    environment:
+      FUNCTION_NAME: CreateTodoFunction
+    events:
+      - http:
+          path: todos/{id}
+          method: put
+          cors: true
+
+  deletetodo:
+    package:
+      artifact: target/todo-1.0-delete-fn.jar
+    handler: goof.handler.aws.GetTodoFunctionHandler
+    environment:
+      FUNCTION_NAME: DeleteTodoFunction
+    events:
+      - http:
+          path: todos/{id}
+          method: delete
+          cors: true
+
+  updatetodo:
+    package:
+      artifact: target/todo-1.0-update-fn.jar
+    handler: goof.handler.aws.TodoFunctionHandler
+    environment:
+      FUNCTION_NAME: UpdateTodoFunction
+    events:
+      - http:
+          path: todos/{id}
+          method: put
+          cors: true
+
+  gettodo:
+    package:
+      artifact: target/todo-1.0-get-fn.jar
+    handler: goof.handler.aws.GetTodoFunctionHandler
+    environment:
+      FUNCTION_NAME: GetTodoFunction
+    events:
+      - http:
+          path: todos/{id}
+          method: get
+          cors: true
+      - GetResource:
+          type: Api
+          properties:
+            path: /{proxy+}
+            method: any
+
+  importtodos:
+    package:
+      artifact: target/todo-1.0-import-fn.jar
+    handler: goof.handler.aws.ImportTodosFunctionHandler
+    environment:
+      FUNCTION_NAME: ImportTodosFunction
+    events:
+      - http:
+          path: import
+          method: post
+          cors: true
