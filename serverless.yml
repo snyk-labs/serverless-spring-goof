@@ -16,6 +16,12 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+        - lambda:InvokeAsync
+      Resource: "*"
+
 
 package:
   individually: true
@@ -85,3 +91,22 @@ functions:
           path: import
           method: post
           cors: true
+
+  todosAdmin:
+    package:
+      artifact: target/todo-1.0-import-fn.jar
+    handler: goof.handler.aws.ImportTodosFunctionHandler
+    environment:
+      FUNCTION_NAME: AdminTodosFunction
+    events:
+      - http:
+          path: import
+          method: post
+          cors: true
+
+  backuptodos:
+    package:
+      artifact: target/todo-1.0-import-fn.jar
+    handler: goof.handler.aws.ImportTodosFunctionHandler
+    environment:
+      FUNCTION_NAME: BackupTodosFunction
