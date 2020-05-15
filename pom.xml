@@ -68,7 +68,7 @@
     <dependency>
         <groupId>com.github.derjust</groupId>
         <artifactId>spring-data-dynamodb</artifactId>
-        <version>4.3.1</version>
+        <version>5.0.3</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
 		<dependency>
