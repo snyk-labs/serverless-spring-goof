@@ -46,7 +46,7 @@
     <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-function-adapter-aws</artifactId>
-        <version>1.0.0.RC2</version>
+        <version>3.0.7.RELEASE</version>
     </dependency>
     <dependency>
         <groupId>com.amazonaws</groupId>
@@ -68,7 +68,7 @@
     <dependency>
         <groupId>com.github.derjust</groupId>
         <artifactId>spring-data-dynamodb</artifactId>
-        <version>4.3.1</version>
+        <version>5.0.3</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
 		<dependency>
