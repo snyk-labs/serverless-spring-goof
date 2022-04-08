@@ -46,7 +46,7 @@
     <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-function-adapter-aws</artifactId>
-        <version>1.0.0.RC2</version>
+        <version>3.2.2</version>
     </dependency>
     <dependency>
         <groupId>com.amazonaws</groupId>
@@ -63,7 +63,7 @@
     <dependency>
         <groupId>com.amazonaws</groupId>
         <artifactId>aws-java-sdk-dynamodb</artifactId>
-        <version>1.11.34</version>
+        <version>1.12.195</version>
     </dependency>
     <dependency>
         <groupId>com.github.derjust</groupId>
