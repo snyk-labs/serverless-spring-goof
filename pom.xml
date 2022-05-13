@@ -46,7 +46,7 @@
     <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-function-adapter-aws</artifactId>
-        <version>1.0.0.RC2</version>
+        <version>3.2.0</version>
     </dependency>
     <dependency>
         <groupId>com.amazonaws</groupId>
